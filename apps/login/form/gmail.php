@@ -20,15 +20,15 @@
         <a class="btn btn-block btn-social btn-google" href="<?php print genGoogleLinkLogin(); ?>">
                 <i class="fa fa-google-plus"></i>ลงชื่อเข้าใช้ด้วย Gmail
               </a>
-     <hr>
-     <a class="btn btn-block btn-social btn-twitter" href="<?php print site_url("signin/login/form/regular/"); ?>">
+     <!-- <hr> -->
+     <!-- <a class="btn btn-block btn-social btn-twitter" href="<?php print site_url("signin/login/form/regular/"); ?>">
                 <i class="fa  fa-sign-in"></i>
                 ลงชื่อเข้าใช้ด้วยตนเอง
         </a>
         <a class="btn btn-block btn-social btn-twitter" href="<?php print site_url("signin/signup/form/register/"); ?>">
                 <i class="fa fa-pencil-square-o"></i>
                 ลงทะเบียน
-        </a>
+        </a> -->
     </center>
 </p>
   </div>

@@ -173,6 +173,7 @@ if (isset($_SESSION['google_code'])) {
     //print_r ($pairUser);
   }else{
     $userData=oauthen_check_login('google',$gmail);
+    // print_r($userData);
     $user_id=$userData['user_id'];
     // print($user_id); exit;
   }

@@ -2,5 +2,5 @@
 $host='localhost';
 $user='root';
 $password='root';
-$database='requisition';
+$database='prereq';
 $prefix='pr_';

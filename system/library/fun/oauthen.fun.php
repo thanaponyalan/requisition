@@ -41,9 +41,9 @@
     $db=$dbCon;
     global $prefix;
       $query="select user_id from {$prefix}oauthen WHERE provider='{$provider}' AND authen_id='{$authen_id}' limit 1";
-      //print $query;
       $result=mysqli_query($db,$query);
       $oauthen_data=mysqli_fetch_array($result);
+      print_r($oauthen_data);
       $user_id=$oauthen_data['user_id'];
 
         $query = "SELECT * FROM {$prefix}userdata WHERE user_id='{$user_id}' limit 1";

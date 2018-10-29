@@ -114,7 +114,9 @@ function add_user($user_data){
     $password=md5($user_data['password']);
     $query = "insert into {$prefix}userdata (username,password,email,name,surname,accession,default_uri)";
     $query.=" values ('{$user_data["username"]}','{$password}','{$user_data["email"]}','{$user_data["name"]}','{$user_data["surname"]}','{$user_data["accession"]}','{$user_data["default_uri"]}')";
-//    print $query;
+   print $query;
+   mysqli_query('SET foreign_key_checks = 0');
+    // exit();
     $result = mysqli_query($dbCon, $query);
     //print_r($result);
     //print $query;
