@@ -1,6 +1,6 @@
 <?php	
 $host='localhost';	
 $user='root';	
-$password='';	
+$password='root';	
 $database='prereq';	
 $prefix='pr_'; 
