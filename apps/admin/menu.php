@@ -2,14 +2,14 @@
 
 //$countRec=count(selectTb('admin_user','*'));
 
-// $newUser = selectTb('userdata', 'count(*)', 'active=" " or active="N"');
-// $numNewUser = $newUser[0]['count(*)'];
+$newUser = selectTb('userdata', 'count(*)', 'active=" " or active="N"');
+$numNewUser = $newUser[0]['count(*)'];
 
-// $allUser = selectTb('userdata', 'count(*)', 'active="Y"');
-// $numAllUser = $allUser[0]['count(*)'];
+$allUser = selectTb('userdata', 'count(*)', 'active="Y"');
+$numAllUser = $allUser[0]['count(*)'];
 
-// $blockedUser = selectTb('userdata', 'count(*)', 'active="B"');
-// $numAllblockedUser = $blockedUser[0]['count(*)'];
+$blockedUser = selectTb('userdata', 'count(*)', 'active="B"');
+$numAllblockedUser = $blockedUser[0]['count(*)'];
 
 
 $mainMenu['adminMenu'] = array(

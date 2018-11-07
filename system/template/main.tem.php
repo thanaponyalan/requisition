@@ -138,6 +138,7 @@
               'file'=>$file,
           );
           $mainMenu=array();
+          // print_r($listMenu);
           if(count($listMenu)){
               foreach($listMenu as $menu){
                   $menuPath=APP_PATH.$menu.'/menu.php';

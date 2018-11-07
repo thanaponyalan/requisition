@@ -1,5 +1,5 @@
 <?php
-$mainMenu['mainMenu']=array(
+$mainMenu['teacherMenu']=array(
     'title'=>'Teacher',
     'class'=>'header',
     'cond'=>true,

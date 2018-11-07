@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="emai" class="col-sm-3 control-label">อีเมล</label>
+                            <label for="email" class="col-sm-3 control-label">อีเมล</label>
                             <div class="col-sm-9">
                                 <input type="email" class="form-control" id="email" placeholder="user@example.com" value="<?php
                                 print $userData['email'];
@@ -48,7 +48,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="emai" class="col-sm-3 control-label">สถานะ</label> 
+                            <label for="status" class="col-sm-3 control-label">สถานะ</label> 
                             <div class="col-sm-9" id="showStatus">
                                 <?php
                                 if ($userData['active'] == ''||$userData['active']=='N') {
@@ -68,7 +68,7 @@
                             </div>                         
                         </div>
                         <div class="form-group">
-                            <label for="emai" class="col-sm-3 control-label">ผู้ดูแลระบบ</label>
+                            <label for="isAdmin" class="col-sm-3 control-label">ผู้ดูแลระบบ</label>
                             <div class="col-sm-9">
                                 <input type="checkbox" class="flat-red"<?php
                                 if ($userData['user_type'] == 'administrator')
@@ -99,16 +99,17 @@
                     <ul class="list-group list-group-unbordered">
                         <?php
                         $accession = json_decode($userData['accession']);
-                        //print_r($accession);
+                        // print_r($accession);
                         $appPath = APP_PATH;
                         $lsResult = array_slice(scandir($appPath), 2);
-                        //print_r($lsResult);
+                        // print_r($lsResult);
                         $i = 0;
                         foreach ($lsResult as $row) {
                             if (!file_exists(APP_PATH . $row . "/menu.php"))
                                 continue;
                             if (file_exists(APP_PATH . $row . "/config.php"))
                                 continue;
+                            // print $row;
                             ?>
                             <li class="list-group-item">
                                 <b><?php print $row; ?></b> <a class="pull-right"><input type="checkbox" id="cb<?php print $row; ?>" name="cb<?php print $row; ?>" value="<?php print $row; ?>" class="flat-red"<?php
@@ -126,9 +127,9 @@
                             //$transferVar.="accession : cb".$row;
                             $i++;
                         }
-                        print($biddingVar);
-                        echo '<br>';
-                        print($bidtoArr);
+                        // print($biddingVar);
+                        // echo '<br>';
+                        // print($bidtoArr);
                         ?>
                     </ul>
                     <button class="btn btn-danger btn-block">แก้ไขสิทธิ์</button>
