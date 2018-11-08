@@ -166,7 +166,7 @@ if (isset($_SESSION['google_code'])) {
       "password"=>rand(00000000,99999999),
       'accession'=>$accession,
       'active'=>'Y',
-      'default_uri'=>'main/home/profile/view',
+      'default_uri'=>'main/home/profile/contactAdmin',
     );
     $user_id=add_user($user_data);
     $pairUser=pair_user_oauthen('google',$gmail,$user_id,json_encode($google_data));

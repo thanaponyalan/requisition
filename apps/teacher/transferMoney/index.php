@@ -1,3 +1,6 @@
+<?php print("In array : ".strpos(current_user("accession"),"finan")); 
+  $acc=current_user("accession");
+?>
 <form role="form">
                 <!-- text input -->
                 <div class="form-group">
