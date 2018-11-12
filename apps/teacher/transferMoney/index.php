@@ -1,20 +1,33 @@
-<?php print("In array : ".strpos(current_user("accession"),"finan")); 
-  $acc=current_user("accession");
+<?php 
+  $acc=substr(current_user("accession"),1,-1);
+  $acc=explode(',',$acc);
+  for($i=0;$i<count($acc);$i++)
+    $acc[$i]=substr($acc[$i],1,-1);
+  // print_r($acc);
+  if(!in_array("teacher",$acc))redirect('');
+  $fulName=current_user('title').current_user('name').' '.current_user('surname');
+  $s=selectTb('userdata','title,name,surname');
+  // print_r($s);
 ?>
 <form role="form">
                 <!-- text input -->
                 <div class="form-group">
                   <label>ชื่อผู้โอน</label>
-                  <input type="text" class="form-control" placeholder="Enter ...">
+                  <input type="text" class="form-control" value="<?php print $fulName?>">
                 </div>
                 <div class="form-group">
                   <label>ผู้รับเงิน</label>
                   <select class="form-control">
-                    <option>option 1</option>
+                    <?php 
+                      foreach($s as $r){
+                        print "<option>".$r['title'].$r['name'].' '.$r['surname']."</option>";
+                      }
+                    ?>
+                    <!-- <option>option 1</option>
                     <option>option 2</option>
                     <option>option 3</option>
                     <option>option 4</option>
-                    <option>option 5</option>
+                    <option>option 5</option> -->
                   </select>
                 </div>
                 <div class="input-group">
