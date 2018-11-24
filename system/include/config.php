@@ -23,11 +23,12 @@
             $_SESSION['siteConfig']['subName']=$subNameData;
         }
         if(isset($_SESSION['siteConfig']['siteURL']))define('SITE_URL',$_SESSION['siteConfig']['siteURL']);
-        error_reporting(E_ALL);
-        ini_set('display_errors',0);
-        error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+        // error_reporting(E_ALL);
+        // ini_set('display_errors',0);
+        ini_set('error_reporting', E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING);
+        // error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
         if($_SESSION['DEBUG']=="YES"){ error_reporting(E_ERROR |E_WARNING | E_PARSE );}
-    error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+    // error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
     define('JS_URL', SITE_URL.'js/');
     define('CSS_URL', SITE_URL.'css/');
     define('IMG_URL', SITE_URL.'image/');

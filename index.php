@@ -4,14 +4,6 @@
     $startRender=microtime(true);
     ob_start();
     session_start();
-    // session_destroy();
-    // exit();
-    // setcookie("user", "", time() - 60000);
-    // exit();
-    // $_COOKIE['user']='';
-    // exit();
-    // print_r($_COOKIE);
-    // exit();
     include 'system/include/config.php';
     global $htacceassConfig;
     if($htacceassConfig)$hGET=array(array_reverse($_GET));
@@ -33,8 +25,10 @@
     $function=key($hGET);
     $file=array_shift($hGET);
     load_fun('user');
-//    print current_user('user_id');
-//    exit();
+    if(!current_user('user_id')){
+        unset($_SESSION['access_token']);
+        if($file!='redirect')unset($_SESSION['google_code']);
+    };
     if(!isset($_COOKIE['start_page'])&&$template!='ajax'||!$_SESSION['siteConfig']['siteURL']&&$template!='ajax'){
         setcookie('start_page','no',time()+(86400*30),'/'); //86400=1day
         gotoURL('./');
@@ -43,24 +37,20 @@
     }
     if(current_user('user_id')==false&&$app!="login"&&$app!="signup"&&$template!="ajax"){
         if($_SESSION['access_token']){
-        	//print "Hello";
-        	redirect(site_url("signin/login/google/redirect/"),true);
+            redirect(site_url("signin/login/google/redirect/"),true);
         }else if(last_user('user_id')){
             define('SITE_URL',$_SESSION['siteConfig']['siteURL']);
             redirect(site_url("signin/login/form/lockscreen/"),true);
         }else if(get_system_config("activeGoogleOpenID")=='activated'){
-      redirect(site_url("signin/login/form/gmail/"),true);
+            redirect(site_url("signin/login/form/gmail/"),true);
         }else{
             redirect(site_url("signin/login/form/regular/"),true);
 	}
     }else{
-        // print '555'; exit;
       if((!$template&&!$app&&!$function&&!$file)||(current_user('user_id')&&$app=="login")){
               if(current_user('default_uri')&&current_user('user_id')){
                   define('SITE_URL', get_system_config('siteURL'));
-                //   print current_user('default_uri'); exit;
                   redirect(current_user('default_uri'));
-                //   print '555'; exit;
               }else{
                 if(!$template)$template='main';
                 if(!$app)$app='mainMenu';

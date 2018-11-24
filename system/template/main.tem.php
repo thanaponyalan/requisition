@@ -204,7 +204,12 @@
                         function showUpdateHome(URI) {
                             $("#systemAlert").html('<div class="alert alert-info alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-info"></i> โปรดทราบ!</h4>ตั้งหน้าหลักของคุณเป็น "<b>'
                                     + URI +
-                                    '</b>" เรียบร้อยแล้ว</div>');
+                                    '</b>" เรียบร้อยแล้ว</div>').hide().slideDown();
+                            $(function(){
+                              setTimeout(function(){
+                                $("#systemAlert").slideUp()
+                              },3000);
+                            });
 
                         }
                     </script>

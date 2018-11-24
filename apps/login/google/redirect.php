@@ -85,15 +85,8 @@ $client->setClientSecret($client_secret);
 $client->setRedirectUri($redirect_uri);
 
 $client->setScopes([
-  "profile",
-  "https://www.googleapis.com/auth/plus.me",
-  "https://www.googleapis.com/auth/plus.login",
-  "https://www.googleapis.com/auth/userinfo.email",
-  "https://www.googleapis.com/auth/userinfo.profile",
-  "https://www.googleapis.com/auth/user.birthday.read",
+  "email","profile"
 ]);
-
-// print '555'; exit;
 
 /************************************************
 
@@ -123,20 +116,9 @@ if (isset($_REQUEST['logout'])) {
   unset($_SESSION['access_token']);
 }
 
-/************************************************
-
-  If we have a code back from the OAuth 2.0 flow,
-
-  we need to exchange that with the authenticate()
-
-  function. We store the resultant access token
-
-  bundle in the session, and redirect to ourself.
-
- ************************************************/
-// unset($_SESSION['google_code']);
-// exit();
 if (isset($_SESSION['google_code'])) {
+  // print('555');
+  // print_r($_SESSION);exit;
   $client->authenticate($_SESSION['google_code']);
   $_SESSION['access_token'] = $client->getAccessToken();
   $redirect = site_url();

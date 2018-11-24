@@ -38,7 +38,7 @@ function insertTb($tb,$data,$debug=false){
     if($data){
     $res=array();
     if(mysqli_num_rows($data)){
-    while($row=mysqli_fetch_array($data)){
+    while($row=mysqli_fetch_assoc($data)){
       $res[]=$row;
     }
    }

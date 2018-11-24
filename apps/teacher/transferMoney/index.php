@@ -13,13 +13,14 @@
                 <!-- text input -->
                 <div class="form-group">
                   <label>ชื่อผู้โอน</label>
-                  <input type="text" class="form-control" value="<?php print $fulName?>">
+                  <input type="text" class="form-control" value="<?php print $fulName?>" disable>
                 </div>
                 <div class="form-group">
                   <label>ผู้รับเงิน</label>
                   <select class="form-control">
                     <?php 
                       foreach($s as $r){
+                        if(strtolower($r['name'])=='administrator'||$r['title'].$r['name'].' '.$r['surname']==$fulName)continue;
                         print "<option>".$r['title'].$r['name'].' '.$r['surname']."</option>";
                       }
                     ?>
