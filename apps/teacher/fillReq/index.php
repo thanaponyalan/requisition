@@ -8,7 +8,7 @@
     // print_r($sOrg);
 ?>
 <script src="<?php print site_url('system/template/AdminLTE/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js',true); ?>"></script>
-<form method="POST" action="result.php">
+<form method="POST" action="<?php print site_url('ajax/teacher/fillReq/check');?>">
     <div class="col-md-6">
         <div class="form-group">
             <label>ภาควิชา</label>
@@ -41,7 +41,7 @@
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>
-            <input type="text" class="form-control pull-right" id="datepicker" name="requireDate">
+            <input type="text" class="form-control pull-right" id="datepicker" name="requireDate" autocomplete="off">
             </div>
         </div>
     </div>
@@ -113,7 +113,7 @@
                         <!-- <td><input type="text" name="cost_<?php print $i;?>" id="test" style="width:100%" onkeypress="this.style.width = ((this.value.length + 4) * 8) + 'px';"></td>
                         <td><input type="text" name="amount_<?php print $i;?>" id="test" style="width:100%" onkeypress="this.style.width = ((this.value.length + 4) * 8) + 'px';"></td> -->
                         <td><input type="text" name="cost_<?php print $i;?>" id="money" style="width:100%; text-align: right;"></td>
-                        <td><input type="text" name="amount_<?php print $i;?>" id="money" style="width:100%; text-align: right;" disabled></td>
+                        <td><input type="text" name="amount_<?php print $i;?>" id="money" style="width:100%; text-align: right;" readonly></td>
                         <td><input type="text" name="" id="" style="width:100%; text-align: right;"></td>
                     </tr>
                     <?php
@@ -121,21 +121,27 @@
                     ?>
                     <tr>
                         <td style="text-align: right;"><label>ส่วนลด</label></td>
-                        <td colspan="4"><input type="text" name="textDiscount" style="width:100%; text-align: left;" disabled></td>
+                        <td colspan="4"><input type="text" name="textDiscount" style="width:100%; text-align: left;" readonly></td>
                         <td colspan="3"><input type="text" name="discount" id="money" style="width:100%; text-align: right;"></td>
-                        <td><input type="text" style="width:100%; text-align: right;" disabled></td>
+                        <td><input type="text" style="width:100%; text-align: right;" readonly></td>
                     </tr>
                     <tr>
                         <td style="text-align: right;"><label>รวมราคา</label></td>
-                        <td colspan='4'><input type="text" name="textBeforeTaxAmount" style="width:100%; text-align: right;" disabled></td>
-                        <td colspan="3"><input type="text" name="beforeTaxAmount" id="money" style="width:100%; text-align: right;" disabled></td>
-                        <td><input type="text" style="width:100%; text-align: right;" disabled></td>
+                        <td colspan='4'><input type="text" name="textBeforeTaxAmount" style="width:100%; text-align: left;" readonly></td>
+                        <td colspan="3"><input type="text" name="beforeTaxAmount" id="money" style="width:100%; text-align: right;" readonly></td>
+                        <td><input type="text" style="width:100%; text-align: right;" readonly></td>
                     </tr>
                     <tr>
                         <td style="text-align: right;"><label>ภาษีมูลค่าเพิ่ม 7%</label></td>
-                        <td colspan="4"><input type="text" name="textTaxAmount" style="width:100%; text-align: left;" disabled></td>
-                        <td colspan="3"><input type="text" name="taxAmount" id="money" style="width:100%; text-align: right;" disabled></td>
-                        <td><input type="text" style="width:100%; text-align: right;" disabled></td>
+                        <td colspan="4"><input type="text" name="textTaxAmount" style="width:100%; text-align: left;" readonly></td>
+                        <td colspan="3"><input type="text" name="taxAmount" id="money" style="width:100%; text-align: right;" readonly></td>
+                        <td><input type="text" style="width:100%; text-align: right;" readonly></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;"><label>รวม</label></td>
+                        <td colspan="4"><input type="text" name="textSumAmount" style="width:100%; text-align: left;" readonly></td>
+                        <td colspan="3"><input type="text" name="sumAmount" id="money" style="width:100%; text-align: right;" readonly></td>
+                        <td><input type="text" style="width:100%; text-align: right;" readonly></td>
                     </tr>
                 </table>
             </div>
@@ -143,7 +149,9 @@
         <button type="submit" class="btn btn-primary pull-right">Submit</button>
     </div>
 </form>
+<script src="<?php print site_url('system/library/js/thaibaht.js',true);?>" type="text/javascript" charset="utf-8"></script>
 <script>
+
     $('input[id=money]').focusout(function(){
         if(this.value!=''){
         this.value=parseFloat(this.value.replace(/,/g, ""))
@@ -191,12 +199,28 @@
                 <?php } ?>
                 
                 var discount=$('input[name=discount]').val()==''?0:$('input[name=discount]').val().replace(/,/g, "");
+                if(discount>0)$('input[name=textDiscount]').val(ArabicNumberToText(discount));
+                else $('input[name=textDiscount]').val('');
+                
                 sumAmount-=parseFloat(discount);
+                if(sumAmount>0)$('input[name=textSumAmount]').val(ArabicNumberToText(sumAmount));
+                else $('input[name=textSumAmount]').val(ArabicNumberToText(''));
 
-                var taxAmount=((sumAmount*100)/107).toFixed(2);
-                var beforeTaxAmount=(sumAmount-taxAmount).toFixed(2);
-
+                var beforeTaxAmount=((sumAmount*100)/107);
+                if(beforeTaxAmount>0)$('input[name=textBeforeTaxAmount]').val(ArabicNumberToText(beforeTaxAmount));
+                else $('input[name=textBeforeTaxAmount]').val('');
+                
+                var taxAmount=(sumAmount-beforeTaxAmount);
+                if(taxAmount>0)$('input[name=textTaxAmount').val(ArabicNumberToText(taxAmount));
+                else $('input[name=textTaxAmount').val('');
+                
+                sumAmount=sumAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                $('input[name=sumAmount]').val(sumAmount);
+                
+                taxAmount=taxAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 $('input[name=taxAmount]').val(taxAmount);
+
+                beforeTaxAmount=beforeTaxAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 $('input[name=beforeTaxAmount]').val(beforeTaxAmount);
             })
             .focusout(function(){
@@ -233,12 +257,28 @@
                 <?php } ?>
                 
                 var discount=$('input[name=discount]').val()==''?0:$('input[name=discount]').val().replace(/,/g, "");
+                if(discount>0)$('input[name=textDiscount]').val(ArabicNumberToText(discount));
+                else $('input[name=textDiscount]').val('');
+                
                 sumAmount-=parseFloat(discount);
+                if(sumAmount>0)$('input[name=textSumAmount]').val(ArabicNumberToText(sumAmount));
+                else $('input[name=textSumAmount]').val();
 
-                var taxAmount=((sumAmount*100)/107).toFixed(2);
-                var beforeTaxAmount=(sumAmount-taxAmount).toFixed(2);
-
+                var beforeTaxAmount=((sumAmount*100)/107);
+                if(beforeTaxAmount>0)$('input[name=textBeforeTaxAmount]').val(ArabicNumberToText(beforeTaxAmount));
+                else $('input[name=textBeforeTaxAmount]').val('');
+                
+                var taxAmount=(sumAmount-beforeTaxAmount);
+                if(taxAmount>0)$('input[name=textTaxAmount').val(ArabicNumberToText(taxAmount));
+                else $('input[name=textTaxAmount').val('');
+                
+                sumAmount=sumAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                $('input[name=sumAmount]').val(sumAmount);
+                
+                taxAmount=taxAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 $('input[name=taxAmount]').val(taxAmount);
+
+                beforeTaxAmount=beforeTaxAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 $('input[name=beforeTaxAmount]').val(beforeTaxAmount);
             })
             .focusout(function(){
@@ -272,12 +312,28 @@
                 <?php } ?>
                 
                 var discount=$('input[name=discount]').val()==''?0:$('input[name=discount]').val().replace(/,/g, "");
+                if(discount>0)$('input[name=textDiscount]').val(ArabicNumberToText(discount));
+                else $('input[name=textDiscount]').val('');
+                
                 sumAmount-=parseFloat(discount);
+                if(sumAmount>0)$('input[name=textSumAmount]').val(ArabicNumberToText(sumAmount));
+                else $('input[name=textSumAmount]').val(ArabicNumberToText(''));
 
-                var taxAmount=((sumAmount*100)/107).toFixed(2);
-                var beforeTaxAmount=(sumAmount-taxAmount).toFixed(2);
-
+                var beforeTaxAmount=((sumAmount*100)/107);
+                if(beforeTaxAmount>0)$('input[name=textBeforeTaxAmount]').val(ArabicNumberToText(beforeTaxAmount));
+                else $('input[name=textBeforeTaxAmount]').val('');
+                
+                var taxAmount=(sumAmount-beforeTaxAmount);
+                if(taxAmount>0)$('input[name=textTaxAmount').val(ArabicNumberToText(taxAmount));
+                else $('input[name=textTaxAmount').val('');
+                
+                sumAmount=sumAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                $('input[name=sumAmount]').val(sumAmount);
+                
+                taxAmount=taxAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 $('input[name=taxAmount]').val(taxAmount);
+
+                beforeTaxAmount=beforeTaxAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 $('input[name=beforeTaxAmount]').val(beforeTaxAmount);
             })
             .focusout(function(){
@@ -311,36 +367,69 @@
                 <?php } ?>
                 
                 var discount=$('input[name=discount]').val()==''?0:$('input[name=discount]').val().replace(/,/g, "");
+                if(discount>0)$('input[name=textDiscount]').val(ArabicNumberToText(discount));
+                else $('input[name=textDiscount]').val('');
+                
                 sumAmount-=parseFloat(discount);
+                if(sumAmount>0)$('input[name=textSumAmount]').val(ArabicNumberToText(sumAmount));
+                else $('input[name=textSumAmount]').val(ArabicNumberToText(''));
 
-                var taxAmount=((sumAmount*100)/107).toFixed(2);
-                var beforeTaxAmount=(sumAmount-taxAmount).toFixed(2);
-
+                var beforeTaxAmount=((sumAmount*100)/107);
+                if(beforeTaxAmount>0)$('input[name=textBeforeTaxAmount]').val(ArabicNumberToText(beforeTaxAmount));
+                else $('input[name=textBeforeTaxAmount]').val('');
+                
+                var taxAmount=(sumAmount-beforeTaxAmount);
+                if(taxAmount>0)$('input[name=textTaxAmount').val(ArabicNumberToText(taxAmount));
+                else $('input[name=textTaxAmount').val('');
+                
+                sumAmount=sumAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                $('input[name=sumAmount]').val(sumAmount);
+                
+                taxAmount=taxAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 $('input[name=taxAmount]').val(taxAmount);
+
+                beforeTaxAmount=beforeTaxAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 $('input[name=beforeTaxAmount]').val(beforeTaxAmount);
             })
             .focusout(function(){
                 if(this.value=='')this.value=0;
             });
     <?php } ?>
-    $('input[name=discount]').change(function(){
-        var sumAmount=0;
-        
-        <?php for($j=0;$j<5;$j++){ ?>
-            var textAmount=$('input[name=<?php print"amount_$j";?>').val()==''?0:$('input[name=<?php print"amount_$j";?>').val().replace(/,/g, "");
-            var amount=parseFloat(textAmount);
-            sumAmount+=amount;
-        <?php } ?>
-        
-        var discount=$('input[name=discount]').val()==''?0:$('input[name=discount]').val().replace(/,/g, "");
-        sumAmount-=parseFloat(discount);
+    /************************* discount field *********************/
+        $('input[name=discount]').change(function(){
+            var sumAmount=0;
+            
+            <?php for($j=0;$j<5;$j++){ ?>
+                var textAmount=$('input[name=<?php print"amount_$j";?>').val()==''?0:$('input[name=<?php print"amount_$j";?>').val().replace(/,/g, "");
+                var amount=parseFloat(textAmount);
+                sumAmount+=amount;
+            <?php } ?>
+            
+            var discount=$('input[name=discount]').val()==''?0:$('input[name=discount]').val().replace(/,/g, "");
+                if(discount>0)$('input[name=textDiscount]').val(ArabicNumberToText(discount));
+                else $('input[name=textDiscount]').val('');
+                
+                sumAmount-=parseFloat(discount);
+                if(sumAmount>0)$('input[name=textSumAmount]').val(ArabicNumberToText(sumAmount));
+                else $('input[name=textSumAmount]').val(ArabicNumberToText(''));
 
-        var taxAmount=((sumAmount*100)/107).toFixed(2);
-        var beforeTaxAmount=(sumAmount-taxAmount).toFixed(2);
+                var beforeTaxAmount=((sumAmount*100)/107);
+                if(beforeTaxAmount>0)$('input[name=textBeforeTaxAmount]').val(ArabicNumberToText(beforeTaxAmount));
+                else $('input[name=textBeforeTaxAmount]').val('');
+                
+                var taxAmount=(sumAmount-beforeTaxAmount);
+                if(taxAmount>0)$('input[name=textTaxAmount').val(ArabicNumberToText(taxAmount));
+                else $('input[name=textTaxAmount').val('');
+                
+                sumAmount=sumAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                $('input[name=sumAmount]').val(sumAmount);
+                
+                taxAmount=taxAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                $('input[name=taxAmount]').val(taxAmount);
 
-        $('input[name=taxAmount]').val(taxAmount);
-        $('input[name=beforeTaxAmount]').val(beforeTaxAmount);
-    });
+                beforeTaxAmount=beforeTaxAmount.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                $('input[name=beforeTaxAmount]').val(beforeTaxAmount);
+        });
     $('#datepicker').datepicker({
       autoclose: true
     })
