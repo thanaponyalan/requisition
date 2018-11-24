@@ -4,3 +4,9 @@
 [submodule "system/library/js"]
 	path = system/library/js
 	url = https://github.com/thanaponyalan/ThaiBath.git
+[submodule "system/library/js/thaibaht"]
+	path = system/library/js/thaibaht
+	url = https://github.com/thanaponyalan/ThaiBath.git
+[submodule "system/library/js/arrow"]
+	path = system/library/js/arrow
+	url = https://github.com/thanaponyalan/arrow-table.git
