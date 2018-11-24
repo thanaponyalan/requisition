@@ -1,0 +1,6 @@
+[submodule "ThaiBath"]
+	path = ThaiBath
+	url = https://github.com/thanaponyalan/ThaiBath.git
+[submodule "system/library/js"]
+	path = system/library/js
+	url = https://github.com/thanaponyalan/ThaiBath.git
