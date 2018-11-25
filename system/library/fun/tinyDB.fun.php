@@ -23,9 +23,12 @@ function insertTb($tb,$data,$debug=false){
  $query.=$col.$val;
   
   if($debug)print $query;
-  mysqli_query($dbCon,$query);
+  mysqli_query($dbCon,'SET foreign_key_checks = 0');
+  if(mysqli_query($dbCon,$query))$insertID=mysqli_insert_id($dbCon);
+  else $insertID=0;
+  mysqli_query($dbCon,'SET foreign_key_checks = 1');
     
-  return mysqli_insert_id($dbCon);   
+  return $insertID;   
  }
  
   function selectTb($tbname,$col=NULL,$where=NULL,$debug=false){

@@ -271,10 +271,16 @@
 <!-- AdminLTE for demo purposes -->
 <!--<script src="<?php // print site_url('system/template/AdminLTE/dist/js/demo.js',true);?>"></script>-->
 <script src="<?php print site_url("system/include/js/rightMenu.js", true); ?>"></script>
-            <script>
-                        $(document).ready(function () {
-                            $("#renderTime").text("<?php print number_format(microtime(true) - $startRender, 2) . " วินาที"; ?>");
-                        });
+<script>
+    $(document).ready(function () {
+        $("#renderTime").text("<?php print number_format(microtime(true) - $startRender, 2) . " วินาที"; ?>");
+        $(window).keydown(function(event){
+          if(event.keyCode == 13) {
+            event.preventDefault();
+            return false;
+          }
+        });
+      });
             </script>
 </body>
 </html>

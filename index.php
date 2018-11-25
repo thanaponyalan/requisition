@@ -4,6 +4,7 @@
     $startRender=microtime(true);
     ob_start();
     session_start();
+    // session_destroy();
     include 'system/include/config.php';
     global $htacceassConfig;
     if($htacceassConfig)$hGET=array(array_reverse($_GET));
@@ -45,26 +46,26 @@
             redirect(site_url("signin/login/form/gmail/"),true);
         }else{
             redirect(site_url("signin/login/form/regular/"),true);
-	}
+        }
     }else{
-      if((!$template&&!$app&&!$function&&!$file)||(current_user('user_id')&&$app=="login")){
-              if(current_user('default_uri')&&current_user('user_id')){
-                  define('SITE_URL', get_system_config('siteURL'));
-                  redirect(current_user('default_uri'));
-              }else{
+        if((!$template&&!$app&&!$function&&!$file)||(current_user('user_id')&&$app=="login")){
+            if(current_user('default_uri')&&current_user('user_id')){
+                define('SITE_URL', get_system_config('siteURL'));
+                redirect(current_user('default_uri'));
+            }else{
                 if(!$template)$template='main';
                 if(!$app)$app='mainMenu';
                 if(!$function)$function='dashboard';
                 if(!$file)$file='index';    
-              }
-      }
+            }
+        }
     }
     
-//    print $template;
-//    print $app;
-//    print $function;
-//    print $file;
-//    exit();
+    //    print $template;
+    //    print $app;
+    //    print $function;
+    //    print $file;
+    //    exit();
     $curCRI=$template.'/'.$app.'/'.$function.'/'.$file;
     $fileContent=APP_PATH.$app.'/'.$function.'/'.$file.'.php';
     includeAppLib($app);
@@ -75,29 +76,30 @@
         $incfile=$fileContent;
     }
     
-include $incfile;
-$content = ob_get_contents();
-ob_end_clean();
-
-$fileNotification="system/include/MainPage/notificationMenu.inc.php";
-$notificationMenu= get_include_contents($fileNotification);
-
-$fileMainMenu='system/include/MainPage/MainMenu.inc.php';
-$MainMenu=get_include_contents($fileMainMenu);
-
-$fileSidebar='system/include/MainPage/sidebar.inc.php';
-$sidebar= get_include_contents($fileSidebar);
-
-function get_include_contents($filename) {
-    $filename = BASE_PATH . $filename;
-    if (is_file($filename)) {
-        ob_start();
-        include $filename;
-        $contents = ob_get_contents();
-        ob_end_clean();
-        return $contents;
+    include $incfile;
+    $content = ob_get_contents();
+    ob_end_clean();
+    // print(current_user('user_id'));
+    
+    $fileNotification="system/include/MainPage/notificationMenu.inc.php";
+    $notificationMenu= get_include_contents($fileNotification);
+    
+    $fileMainMenu='system/include/MainPage/MainMenu.inc.php';
+    $MainMenu=get_include_contents($fileMainMenu);
+    
+    $fileSidebar='system/include/MainPage/sidebar.inc.php';
+    $sidebar= get_include_contents($fileSidebar);
+    
+    function get_include_contents($filename) {
+        $filename = BASE_PATH . $filename;
+        if (is_file($filename)) {
+            ob_start();
+            include $filename;
+            $contents = ob_get_contents();
+            ob_end_clean();
+            return $contents;
+        }
+        return false;
     }
-    return false;
-}
 include BASE_PATH.'system/template/'.$template.'.tem.php';
 ?>
