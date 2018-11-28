@@ -21,6 +21,7 @@
         'discount'=>"'$discount'",
         'total_cost'=>"'$sumAmount'",
         'vat'=>"'$taxAmount'",
+        'reason_id'=>"'$req_reason'"
     );
     
     $req_id=insertTb('req_material',$req_data,true);
@@ -72,5 +73,5 @@
             if(preg_match("/^[0-9.,]+$/", $sv)) $sv = str_replace(',','',$sv);
             $addData[$listMaterial[$sr]]="'".$sv."'";
         }
-        // insertTb('req_item',$addData,true);
+        insertTb('req_item',$addData,true);
     }

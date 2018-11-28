@@ -1,10 +1,22 @@
 <?php
   
 function signInUser($userID,$remember=false,$noRedirest=false){
-    $data=selectTb('userdata','*','user_id="'.$userID.'" limit 1');
+    $data=selectTb('userdata','*','user_id="'.$userID.'" and active="Y" limit 1');
     if(!count($data)){
-        print 'ไม่พบบัญชีของท่านในระบบ'; 
-        redirect('signin/login/form/regular',false,5);
+        $data=selectTb('userdata','*','user_id="'.$userID.'" and active="N" limit 1');
+        if(!count($data)){
+            $data=selectTb('userdata','*','user_id="'.$userID.'" and active="B" limit 1');
+            if(!count($data)){
+                print 'ไม่พบบัญชีของท่านในระบบ';
+                redirect(site_url(''),false,5);
+            }else{
+                print 'บัญชีของท่านถูกจำกัดการใช้งาน';
+                redirect(site_url(''),false,5);
+            }
+        }else{
+            print 'บัญชีของท่านยังไม่ได้เปิดใช้งาน';
+            redirect(site_url(''),false,5);
+        }
     }else{
         $userdata=$data[0];
     //    print_r($userdata); exit;
@@ -79,7 +91,7 @@ function user_logon($logon_data){
     // print_r($logon_data); exit;
     setcookie('user',serialize($logon_data), time() + $logon_data['time_logon'], "/");
     // print_r($_COOKIE);
-    // updateTb("userdata",array("last_login"=>"NOW()"),"user_id=".$logon_data['user_id']);
+    updateTb("userdata",array("last_login"=>"NOW()"),"user_id=".$logon_data['user_id']);
 }
   
 function current_user($key){
@@ -112,10 +124,10 @@ function add_user($user_data){
     global $prefix;
     //print $prefix;
     $password=md5($user_data['password']);
-    $query = "insert into {$prefix}userdata (username,password,email,name,surname,accession,default_uri)";
-    $query.=" values ('{$user_data["username"]}','{$password}','{$user_data["email"]}','{$user_data["name"]}','{$user_data["surname"]}','{$user_data["accession"]}','{$user_data["default_uri"]}')";
-   print $query;
-   mysqli_query('SET foreign_key_checks = 0');
+    $query = "insert into {$prefix}userdata (username,password,email,name,surname,accession,default_uri,signup)";
+    $query.=" values ('{$user_data["username"]}','{$password}','{$user_data["email"]}','{$user_data["name"]}','{$user_data["surname"]}','{$user_data["accession"]}','{$user_data["default_uri"]}','NOW()')";
+//    print $query;
+   mysqli_query($dbCon,'SET foreign_key_checks = 0');
     // exit();
     $result = mysqli_query($dbCon, $query);
     //print_r($result);

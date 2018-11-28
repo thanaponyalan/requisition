@@ -8,7 +8,7 @@
     $reason=selectTb('req_reason','id,reason');
 ?>
 <script src="<?php print site_url('system/template/AdminLTE/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js',true); ?>"></script>
-<form method="POST" action="<?php print site_url('main/teacher/fillReq/check');?>">
+<form method="POST" action="<?php print site_url('main/teacher/fillReq/check'); ?>">
     <div class="col-md-6">
         <div class="form-group">
             <label>ภาควิชา</label>
@@ -441,4 +441,19 @@
         listenTarget:'input, select',
         focusTarget:'input, select',
     });
+    // $("button").click(function(){
+    //     // alert($("select[name=usefor]").val());
+    //     $.post("<?php print site_url('main/teacher/fillReq/check'); ?>",
+    //     {
+    //       dept: "1",
+    //       usefor : $("select[name=usefor]").val(),
+    //       requireDate : $("input[name=]"),
+    //     //   city: "Duckburg"
+    //     },
+    //     function(data,status){
+    //         // alert(usefor);
+    //         // alert(data+"\nStatus: " + status);
+    //     });
+    // });
+    
 </script>

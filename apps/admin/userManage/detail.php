@@ -83,7 +83,7 @@
                         </div>
                     </div>
 
-                    <a href="#" class="btn btn-primary btn-block"><b>แก้ไขข้อมูล</b></a>
+                    <!-- <a href="#" class="btn btn-primary btn-block"><b>แก้ไขข้อมูล</b></a> -->
                 </form>
             </div>
             <!-- /.box-body -->

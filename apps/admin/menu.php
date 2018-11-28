@@ -34,8 +34,9 @@ $mainMenu['adminMenu'] = array(
             'title' => 'จัดการผู้ใช้',
             'url' => 'main/userManage/user/list',
             'cond' => current_user('user_type')=='administrator',
-            'item' => array('new' => array(
-                'bullet' => 'fa fa-user-plus',
+            'item' => array(
+                'new' => array(
+                    'bullet' => 'fa fa-user-plus',
                     'title' => 'อนุมัติการลงทะเบียน',
                     'url' => 'main/admin/userManage/new',
                     'num' => $numNewUser,

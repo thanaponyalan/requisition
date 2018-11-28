@@ -1,6 +1,7 @@
 <?php
     header('Content-Type: text/html; charset=utf-8');
     define('INDEX_PATH',str_replace('\\','/',dirname(__FILE__)).'/');
+    // print(INDEX_PATH);
     $startRender=microtime(true);
     ob_start();
     session_start();
@@ -54,7 +55,7 @@
                 redirect(current_user('default_uri'));
             }else{
                 if(!$template)$template='main';
-                if(!$app)$app='mainMenu';
+                if(!$app)$app='main';
                 if(!$function)$function='dashboard';
                 if(!$file)$file='index';    
             }
