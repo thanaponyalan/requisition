@@ -1,7 +1,7 @@
 <?php
-    $subtitle="ใบเบิกที่ยังไม่ได้อนุมัติ";
-    $title="New";
-    $listData=selectTb('req_material','*','isApprove="0"');
+    $title="Approved";
+    $subtitle="ใบเบิกที่อนุมัติแล้ว";
+    $listData=selectTb('req_material','*','isApprove="1"');
     $i=0;
     foreach($listData as $r=>$k){
       // print_r($k);
@@ -28,7 +28,7 @@
               <ul class="nav nav-stacked">
                 <li><a target="_blank" rel="noopener noreferrer" href="'.site_url('ajax/finance/pdf/genPdf/t/1/id/'.$k['id']).'">บันทึกรายงานขอซื้อ/จ้าง (แบบ พจ.1)<span class="pull-right badge bg-blue"><span class="fa fa-download"></span></span></a></li>
                 <li><a target="_blank" rel="noopener noreferrer" href="'.site_url('ajax/finance/pdf/genPdf/t/2/id/'.$k['id']).'">ใบเบิกวัสดุ (แบบ พ.43)<span class="pull-right badge bg-aqua"><span class="fa fa-download"></span></span></a></li>
-                <li><a href="javascript:void(0)" name="markAsRead'.$i.'">ทำเครื่องหมายว่าอนุมัติแล้ว<span class="pull-right badge bg-green">12</span></a></li>
+                <li><a href="javascript:void(0)" name="markAsUnread'.$i.'">ทำเครื่องหมายว่ายังไม่ได้อนุมัติ<span class="pull-right badge bg-green">12</span></a></li>
                 <input type="hidden" name="docId'.$i.'" value="'.$k['id'].'">
               </ul>
             </div>
@@ -42,9 +42,9 @@
     ?>
     <script>
       <?php for($j=0;$j<$i;$j++){ ?>
-        $("a[name='markAsRead<?php print $j;?>']").on("click",function(){
+        $("a[name='markAsUnread<?php print $j;?>']").on("click",function(){
             var id=$("input[name='docId<?php print $j;?>']").val();
-            var url="<?php print site_url('ajax/finance/set/markAsRead'); ?>";
+            var url="<?php print site_url('ajax/finance/set/markAsUnread'); ?>";
             var posting = $.post( url, {docId:id});
 
             posting.done(function( data ) {
@@ -64,7 +64,7 @@
                       $("#systemAlert").slideUp();
                       $(function(){
                         setTimeout(function(){
-                          window.location.href="<?php print site_url('main/finance/viewReq/new');?>";
+                          window.location.href="<?php print site_url('main/finance/viewReq/Approved');?>";
                         },1000);
                       });
                     },3000);

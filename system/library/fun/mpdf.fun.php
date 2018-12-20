@@ -44,13 +44,13 @@
 						'B'=>'THSarabun Bold.ttf'
 					],
 				],
-				'default_font_size'=>16,
+				'default_font_size'=>14,
 				'default_font'=>'thsarabun',
 				'format'=>'A4',
 				'margin_left'=>17.78,
 				'margin_right'=>17.78,
-				'margin_top'=>12.24,
-				'margin_buttom'=>7.62,
+				'margin_top'=>10,
+				'margin_buttom'=>0,
 				'margin_header'=>0,
 				'margin_footer'=>0,
 			]);
@@ -60,8 +60,15 @@
 		if($pr)$mpdf->SetHTMLHeader('<div style="text-align: right; font-size: 12pt;">แบบ พ.43</div>');
         // else $mpdf->SetHTMLHeader('<div style="text-align: right; font-weight: bold;">'.$pageNo.'</div>');
 		$mpdf->WriteHTML(thai($html));
+// 		$mpdf->WriteHTML('<columns column-count="3" vAlign="J" column-gap="7" />');
+// $mpdf->WriteHTML('Some text...');
+
+// $mpdf->WriteHTML('<columnbreak />');
+
+// $mpdf->WriteHTML('Next column...');
 		// $mpdf->WriteHTML($html);
-		$fname="PR".date('Ymdhi').".pdf";
+		if($pr)$fname="PR".date('Ymdhis').".pdf";
+		if($rp)$fname="RP".date('Ymdhis').".pdf";
 		$pf=INDEX_PATH."system/pdf/".$fname;
 		$mpdf->Output($pf);
 		return (site_url('system/pdf/'.$fname,true));

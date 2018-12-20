@@ -989,13 +989,14 @@ $( "#updateDataForm" ).submit(function( event ) {
     });
 
     function showUpdate(txt){
-
-      $("#systemAlert").html('<div class="alert alert-info alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-info"></i><b>'
-
-                +txt+
-
-                '</b></div>');
-
-    }
+        $("#systemAlert").html('<div class="alert alert-info alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-info"></i><b>'
+                  +txt+
+                  '</b></div>').hide().slideDown();
+                  $(function(){
+                    setTimeout(function(){
+                      $("#systemAlert").slideUp()
+                    },3000);
+                  });
+        }
 
   </script>
