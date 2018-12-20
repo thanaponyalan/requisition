@@ -1,5 +1,5 @@
 <?php
-	function genPdf($pr=false,$html,$size='A4',$pageNo=NULL){
+	function genPdf($rp=false,$pr=false,$html,$size='A4',$pageNo=NULL){
 		require_once(INDEX_PATH.'system/library/ext/mpdf/vendor/autoload.php');
 		$mpdf=new \Mpdf\Mpdf();
 		
@@ -9,31 +9,56 @@
 		$defaultFontConfig=(new Mpdf\Config\FontVariables())->getDefaults();
 		$fontData=$defaultFontConfig['fontdata'];
 
-		$mpdf = new \Mpdf\Mpdf([
-			'fontDir'=>array_merge($fontDirs,[
-				__DIR__.'/fonts',
-			]),
-			'fontdata'=>$fontData+[
-				'thsarabun'=>[
-					'R'=>'THSarabun.ttf',
-					'I'=>'THSarabun Italic.ttf',
-					'B'=>'THSarabun Bold.ttf'
+		if($pr){
+			$mpdf = new \Mpdf\Mpdf([
+				'fontDir'=>array_merge($fontDirs,[
+					__DIR__.'/fonts',
+				]),
+				'fontdata'=>$fontData+[
+					'thsarabun'=>[
+						'R'=>'THSarabun.ttf',
+						'I'=>'THSarabun Italic.ttf',
+						'B'=>'THSarabun Bold.ttf'
+					],
 				],
-			],
-			'default_font_size'=>16,
-			'default_font'=>'thsarabun',
-			'format'=>'A4',
-			'margin_left'=>7.62,
-			'margin_right'=>7.62,
-			'margin_top'=>5.08,
-			'margin_buttom'=>4.318,
-			'margin_header'=>0,
-			'margin_footer'=>0,
-		]);
+				'default_font_size'=>16,
+				'default_font'=>'thsarabun',
+				'format'=>'A4',
+				'margin_left'=>7.62,
+				'margin_right'=>7.62,
+				'margin_top'=>5.08,
+				'margin_buttom'=>4.318,
+				'margin_header'=>0,
+				'margin_footer'=>0,
+			]);
+		}
+		if($rp){
+			$mpdf = new \Mpdf\Mpdf([
+				'fontDir'=>array_merge($fontDirs,[
+					__DIR__.'/fonts',
+				]),
+				'fontdata'=>$fontData+[
+					'thsarabun'=>[
+						'R'=>'THSarabun.ttf',
+						'I'=>'THSarabun Italic.ttf',
+						'B'=>'THSarabun Bold.ttf'
+					],
+				],
+				'default_font_size'=>16,
+				'default_font'=>'thsarabun',
+				'format'=>'A4',
+				'margin_left'=>17.78,
+				'margin_right'=>17.78,
+				'margin_top'=>12.24,
+				'margin_buttom'=>7.62,
+				'margin_header'=>0,
+				'margin_footer'=>0,
+			]);
+		}
 		
 		$mpdf->SetDisplayMode('fullpage');
 		if($pr)$mpdf->SetHTMLHeader('<div style="text-align: right; font-size: 12pt;">แบบ พ.43</div>');
-        else $mpdf->SetHTMLHeader('<div style="text-align: right; font-weight: bold;">'.$pageNo.'</div>');
+        // else $mpdf->SetHTMLHeader('<div style="text-align: right; font-weight: bold;">'.$pageNo.'</div>');
 		$mpdf->WriteHTML(thai($html));
 		// $mpdf->WriteHTML($html);
 		$fname="PR".date('Ymdhi').".pdf";
